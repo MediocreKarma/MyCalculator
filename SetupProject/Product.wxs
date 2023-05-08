@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="4072d741-2510-4d85-8e24-9e52dfefb5bd" Name="SetupProject" Language="1033" Version="2.0.0.0" Manufacturer="Matei" UpgradeCode="02ca585b-c7e9-4f8b-bcfa-c94c61f8f0b1">
+		<Package InstallerVersion="300" Compressed="yes" InstallScope="perMachine" />
+		<MediaTemplate EmbedCab="yes"/>
+		
+		<Icon Id ="computerIcon.ico" SourceFile="C:\Users\asrock\Desktop\Cpp\Calculator\x64\Release\calculatorIcon.ico"/>
+		<Property Id ="ARPPRODUCTICON" Value="computerIcon.ico"/>
+		
+		<Feature Id="MainApp" Title="ComputerApplication" Level="1">
+			<ComponentRef Id="CalculatorApp.exe"/>
+			<ComponentRef Id="icon.ico"/>
+			<ComponentRef Id="msvcp140.dll"/>
+			<ComponentRef Id="vcruntime140.dll"/>
+			<ComponentRef Id="vcruntime140_1.dll"/>
+			<ComponentRef Id="ComputerAppShortcut"/>
+		</Feature>
+		
+	</Product>
+
+	<Fragment>
+		<PropertyRef Id="NETFRAMEWORK472"/>
+		<Condition Message ="This app requires .NET Framework 4.7.2. Please Install the .NET Framework then run this installer again">
+			<![CDATA[Installed or NETFRAMEWORK472]]>
+		</Condition>
+	</Fragment>
+	
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="APPLICATIONROOTDIRECTORY" Name="CalculatorApp" />
+			</Directory>
+			<Directory Id="DesktopFolder" Name="Desktop"/>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<!--<ComponentGroup Id="ProductComponents" Directory="APPLICATIONROOTDIRECTORY">
+			<Component Id="ProductComponent" Guid ="*">
+				<File Source = "$(var.Calculator.TargetPath)" />
+			</Component>
+			<Component Id='icon.ico' Guid ='*'>
+				<File Id='icon.ico' Name ="icon.ico" Source ="C:\Users\asrock\Desktop\Cpp\Calculator\x64\Release\calculatorIcon.ico" KeyPath ='yes'/>
+			</Component>
+			<Component Id='msvcp140.dll' Guid ='*'>
+				<File Id='msvcp140.dll' Name ='msvcp140.dll' Source ="C:\Users\asrock\Desktop\Cpp\Calculator\x64\Release\msvcp140.dll" KeyPath='yes'/>
+			</Component>
+			<Component Id ='vcruntime140.dll' Guid ='*'>
+				<File Id ='vcruntime140.dll' Name ='vcruntime140.dll' Source ='C:\Users\asrock\Desktop\Cpp\Calculator\x64\Release\vcruntime140.dll' KeyPath='yes'/>
+			</Component>
+		</ComponentGroup>-->
+		<DirectoryRef Id ="APPLICATIONROOTDIRECTORY">
+			<Component Id="CalculatorApp.exe" Guid="36be8000-5b80-41a4-aed5-de7c9ae6b647">
+				<File Id ="CalculatorApp.exe" Source ="$(var.Calculator.TargetPath)"/>
+			</Component>
+			<Component Id='icon.ico' Guid ='16dea2c4-c22f-4489-aa71-cfaa644e1202'>
+				<File Id='icon.ico' Name ="icon.ico" Source ="C:\Users\asrock\Desktop\Cpp\Calculator\x64\Release\calculatorIcon.ico" KeyPath ='yes'/>
+			</Component>
+			<Component Id='msvcp140.dll' Guid ='1f81b730-1df9-4747-8eab-8c5979d3071f'>
+				<File Id='msvcp140.dll' Name ='msvcp140.dll' Source ="C:\Users\asrock\Desktop\Cpp\Calculator\x64\Release\msvcp140.dll" KeyPath='yes'/>
+			</Component>
+			<Component Id ='vcruntime140.dll' Guid ='4825062f-fbbc-453a-9f39-89cd5db53f7a'>
+				<File Id ='vcruntime140.dll' Name ='vcruntime140.dll' Source ='C:\Users\asrock\Desktop\Cpp\Calculator\x64\Release\vcruntime140.dll' KeyPath='yes'/>
+			</Component>
+			<Component Id ='vcruntime140_1.dll' Guid='9e98a0eb-d8fc-40a6-8c68-d2123deedc56'>
+				<File Id='vcruntime140_1.dll' Name='vcruntime140_1.dll' Source='C:\Users\asrock\Desktop\Cpp\Calculator\x64\Release\vcruntime140_1.dll' KeyPath='yes'/>
+			</Component>
+		</DirectoryRef>
+		
+		<DirectoryRef Id='DesktopFolder'>
+			<Component Id ='ComputerAppShortcut' Guid='62a20b9a-74f8-4478-a319-9723f12ccc21'>
+				<Shortcut Id='ComputerApp_Shortcut'
+						  Name='ComputerApp'
+						  Description='A basic calculator app'
+						  Target='[#CalculatorApp.exe]'
+						  WorkingDirectory='APPLICATIONROOTDIRECTORY'>
+					<Icon Id='icon.ico' SourceFile='C:\Users\asrock\Desktop\Cpp\Calculator\x64\Release\calculatorIcon.ico'/>
+				</Shortcut>
+				<RemoveFolder Id='DesktopFolder' On='uninstall'/>
+				<RegistryValue Root='HKCU'
+							   Key='"Software/CalculatorApp'
+							   Name='installed'
+							   Type='integer'
+							   Value='1'
+							   KeyPath='yes'/>
+			</Component>
+		</DirectoryRef>
+	</Fragment>
+</Wix>
